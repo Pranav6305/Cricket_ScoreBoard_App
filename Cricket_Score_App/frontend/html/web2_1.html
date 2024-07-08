@@ -1,0 +1,115 @@
+<html>
+  <head>
+    
+    <style>
+        .teambox-container {
+          margin-left: 10%;
+          display: flex;
+          justify-content: space-between;
+          margin-right: 10%;
+        }
+
+        #i1{
+          margin-left:15%;
+          text-align: center;
+        }
+        #i2{
+          margin-left:40%;
+          text-align: center;
+        }
+
+        .teambox {
+            width: 5%;
+            background-color: white;
+            width:400px;
+            height:500px;
+            border: 1px solid black;
+            padding: 10px;
+        }
+    </style>
+
+    <body style="background-color: lightskyblue">
+      <center>
+        <div>
+          <form>
+            <tr>
+              <h2>No. of Players in each team</h2>
+              <td>
+                <input
+                  type="text"
+                  placeholder="Enter"
+                  style="text-align: center; padding: 5px"
+                />
+              </td>
+            </tr>
+          </form>
+        </div>
+        <h2>Playing 11's</h2>
+      </center>
+
+      <input type="text" placeholder="team1 players" id="i1">
+      <button onclick="team1()">add</button>
+      
+      <input type="text" placeholder="team2 players" id="i2">
+      <button onclick="team2()">add</button>
+      <br><br>
+
+      <div class="teambox-container">
+        <div class="teambox" id="team1">
+          <center><h2 id="s1"></h2></center>
+        </div>
+        <div class="teambox" id="team2">
+          <center><h2 id="s2"></h2></center>
+        </div>
+      </div>
+
+      <center>
+        <button onclick='window.location.href="web3_score.html"'>
+          Proceed
+        </button>
+      </center>
+
+      <script>
+        var tm1 = localStorage.getItem("team1");
+        var tm2 = localStorage.getItem("team2");
+        document.getElementById("s1").textContent = tm1;
+        document.getElementById("s2").textContent = tm2;
+
+        var div1=document.getElementById("team1");
+        var div2=document.getElementById("team2");
+        var user1=document.getElementById("i1");
+        var user2=document.getElementById("i2");
+
+        function team1(){
+          var ip1=user1.value.trim();
+          var c1=document.createElement("h2");
+
+          if (ip1!=""){
+            c1.textContent=ip1;
+            div1.append(c1);
+            user1.value="";
+            
+          }
+          else{
+            alert("Enter team 1 player name");
+          }
+        }
+
+        function team2(){
+          var ip2=user2.value.trim();
+          var c2=document.createElement("h2");
+
+          if (ip2!=""){
+            c2.textContent=ip2;
+            div2.append(c2);
+            user2.value="";
+          }
+          else{
+            alert("Enter team 2 player name");
+          }
+        }
+        
+      </script>
+    </body>
+  </head>
+</html>

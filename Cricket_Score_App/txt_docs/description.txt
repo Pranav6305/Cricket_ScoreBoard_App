@@ -1,0 +1,105 @@
+Description about the variables,functions used in all the files.
+
+--------------------------------------------------------------------------------------------------------
+web1.html
+
+- Home page
+- it has a button that connects to web2.html
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+web2.html
+
+- It contains the details about the match between which teams, toss won by, no. of overs, elected to bat/bowl
+- localStorage method is used to store both the teams name and no. of overs value to fetch it in the other pages if necessary
+
+variables
+----------
+• t1 -> contains team1 name
+• t2 -> contains team 2 name
+• toss -> contains which team won the toss
+• select -> contains batting/bowling
+• over -> contains no. of overs
+
+
+functions
+----------
+• proceed() -> it ensures that all slots are filled in the webpage and helps to procedd to the next page through a proceed button
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+web2_1.html
+
+- It is used to get the names of players from each team.
+
+variables
+----------
+• tm1 -> contains team1 name
+• tm2 -> contains team 2 name
+• div1 -> the space which is used to store the players name of team1
+• div2 -> the space which is used to store the players name of team2
+• user1 -> contains name of player from team1 in the input box
+• user2 -> contains name of player from team2 in the input box
+• ip1 -> contains trim value of user1
+• ip2 -> contains trim value of user2
+• c1 -> used to dynamically create <h2> tags in div1 variable space
+• c2 -> used to dynamically create <h2> tags in div2 variable space
+
+
+functions
+----------
+• team1() -> this function helps to create a space for adding player name of team 1 in div1 space
+• team2() -> this function helps to create a space for adding player name of team 2 in div2 space
+
+- It contains proceed button which proceeds to the next page (web3.html)
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+script3.js [web3.html]
+
+- It helps to keep track of the cricket match score, overs, wickets, and other match details.
+
+variables
+----------
+• runs: Total runs scored.
+• balls: Number of balls bowled in the current over.
+• overs: Total number of overs bowled.
+• wickets: Total number of wickets fallen.
+• total: Total runs including extras.
+• st: Runs scored by the striker.
+• flag: Indicates the strike position of the batsman (0 (striker) or 1 (non-striker)).
+• nst: Runs scored by the non-striker.
+• bstwkt: Wickets taken by the current bowler.
+• bnstwkt: Wickets taken by the other bowler.
+• bstrun: Runs given by the current bowler.
+• bnstrun: Runs given by the other bowler.
+• bflag: Indicates the bowling position (0 (even bowler) or 1 (odd bowler)).
+• stb: Balls faced by the striker.
+• nstb: Balls faced by the non-striker.
+• extras: Total extras (wides, no-balls, byes, leg-byes).
+• bat_team: The name of the batting team (from local storage).
+• freeHitFlag: Indicates if the current ball is a free hit.
+• totalovers: Total overs in the match (from local storage).
+• recents: Array storing recent events (runs, wickets).
+• prevStrRuns: Array that store the total runs of player.
+•prevStrBalls: Array tha store total balls played by each player.
+
+functions
+----------
+• score(value): Updates the score based on the value (runs) provided.
+• wicket(out): Updates the score when a wicket falls.
+• openPopup(): Opens the popup for wide ball input.
+• openPopupn(): Opens the popup for no-ball input.
+• openPopupb(): Opens the popup for byes input.
+• openPopuplb(): Opens the popup for leg-byes input.
+• openPopupwk(): Opens the popup for wicket input.
+• closePopupwk(): Closes the popup for wicket input.
+• closePopup(): Closes the popup for wide ball and updates the score.
+• noballPopup(): Updates the score for no-ball and closes the popup.
+• byesPopup(): Updates the score for byes and closes the popup.
+• legbyesPopup(): Updates the score for leg-byes and closes the popup.
+• undo(): Reverts the last action performed (score or wicket).
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
