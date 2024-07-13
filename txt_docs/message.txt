@@ -2,3 +2,8 @@ finished tasks:
 
 by pranav:
 -> wide undo finished
+
+by Harish 13/7:
+->wide undo small mistakes edited and completed
+->No ball undo completed
+->Free Hit logic for all cases done
