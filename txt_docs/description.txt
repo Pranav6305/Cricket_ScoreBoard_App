@@ -76,6 +76,8 @@ variables
 • bflag: Indicates the bowling position (0 (even bowler) or 1 (odd bowler)).
 • stb: Balls faced by the striker.
 • nstb: Balls faced by the non-striker.
+• wide: Runs scored in wide.
+•cwide: Count the number of wides.
 • extras: Total extras (wides, no-balls, byes, leg-byes).
 • bat_team: The name of the batting team (from local storage).
 • freeHitFlag: Indicates if the current ball is a free hit.
@@ -83,6 +85,8 @@ variables
 • recents: Array storing recent events (runs, wickets).
 • prevStrRuns: Array that store the total runs of player.
 •prevStrBalls: Array tha store total balls played by each player.
+•wideRecords: Array store the total runs in wide.
+•noballRecords: Array store the total runs in noball.
 
 functions
 ----------
