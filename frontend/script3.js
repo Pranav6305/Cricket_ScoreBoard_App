@@ -17,14 +17,17 @@ var runs = 0,
   nstb = 0,
   extras = 0;
 var wide = 0,
-  cwide = 0;
+  cwide = 0,
+  cnb = 0;
 var bat_team = localStorage.getItem("bat");
 var freeHitFlag = 0;
 document.getElementById("bteam").textContent = bat_team;
 var totalovers = localStorage.getItem("overs");
 var recents = [],
   prevStrRuns = [],
-  prevStrBalls = [];
+  prevStrBalls = [],
+  wideRecords = [],
+  noballRecords = [];
 
 function score(value) {
   if (overs == totalovers) {
@@ -133,11 +136,13 @@ function wicket(out) {
           prevStrBalls.push(stb);
           st = 0;
           stb = 0;
+          flag = 1;
         } else if (flag === 1) {
           prevStrRuns.push(nst);
           prevStrBalls.push(nstb);
           nst = 0;
           nstb = 0;
+          flag = 0;
         }
         if (bflag === 0) {
           bstwkt += 1;
@@ -236,7 +241,6 @@ function closePopupwk() {
 
 function closePopup() {
   wide = 0;
-  cwide = 0;
   wide = parseInt(document.getElementById("val").value);
   if (wickets === 10) {
     flag = -1;
@@ -273,6 +277,7 @@ function closePopup() {
   }
   if (flag === 0 || flag === 1) {
     recents.push(-2);
+    wideRecords.push(wide);
     document.getElementById("popup").style.display = "none";
     document.getElementById("overlay").style.display = "none";
     document.getElementById("runs").innerHTML = total;
@@ -284,8 +289,7 @@ function closePopup() {
 }
 
 function noballPopup() {
-  var nb = 0,
-    cnb = 0;
+  var nb = 0;
   nb = parseInt(document.getElementById("n").value);
   if (overs == totalovers) {
     flag = -1;
@@ -335,6 +339,7 @@ function noballPopup() {
   }
   if (flag === 0 || flag === 1) {
     recents.push(-3);
+    noballRecords.push(nb);
     document.getElementById("popupn").style.display = "none";
     document.getElementById("overlayn").style.display = "none";
     document.getElementById("runs").innerHTML = total;
@@ -520,17 +525,17 @@ function undo() {
       document.getElementById("nst").innerHTML = nst + "(" + nstb + ")";
       document.getElementById("bst").innerHTML = bstwkt + "-" + bstrun;
       document.getElementById("bnst").innerHTML = bnstwkt + "-" + bnstrun;
+      var tempcheck = recents.pop();
+      if (tempcheck === -3) {
+        freeHitFlag = 1;
+      }
+      recents.push(tempcheck);
     }
   }
   //Wicket
   else if (change === -1) {
     if (wickets > 0) {
       wickets = wickets - 1;
-      if (bflag === 0) {
-        bstwkt--;
-      } else if (bflag === 1) {
-        bnstwkt--;
-      }
       if (balls === 0) {
         overs--;
         balls = 5;
@@ -549,6 +554,12 @@ function undo() {
       } else {
         balls--;
       }
+      if (bflag === 0) {
+        bstwkt--;
+      } else if (bflag === 1) {
+        bnstwkt--;
+      }
+
       //Run retrive for batsman
       if (flag === 0) {
         st = prevStrRuns.pop();
@@ -556,6 +567,15 @@ function undo() {
       } else if (flag === 1) {
         nst = prevStrRuns.pop();
         nstb = prevStrBalls.pop();
+      }
+    }
+    //Free Hit Wicket Undo
+    else {
+      if (balls === 0) {
+        balls = 5;
+        overs--;
+      } else {
+        balls--;
       }
     }
     if (flag === 0 || flag === 1) {
@@ -570,29 +590,29 @@ function undo() {
       document.getElementById("bnst").innerHTML = bnstwkt + "-" + bnstrun;
     }
   }
-  // wide  
+  // Wide
   else if (change === -2) {
-    total = total - wide;
-    runs = runs - wide;
+    var tempwide = wideRecords.pop();
+    total = total - tempwide;
+    runs = runs - tempwide;
     // extras--;
-    extras -= wide;
+    extras -= tempwide;
     cwide--;
-    if (wide % 2 === 0 && flag === 0) {
+    if (tempwide % 2 === 0 && flag === 0) {
       flag = 1;
-    } else if (wide % 2 === 0 && flag === 1) {
+    } else if (tempwide % 2 === 0 && flag === 1) {
       flag = 0;
     }
     if (bflag === 0) {
-      bstrun -= wide-1;
+      bstrun -= tempwide - 1;
       bstrun--;
     } else if (bflag === 1) {
-      bnstrun -= wide-1;
+      bnstrun -= tempwide - 1;
       bnstrun--;
     }
     if (total === 0) {
       total = 0;
     }
-    wide=0;
     if (flag === 0 || flag === 1) {
       document.getElementById("runs").innerHTML = total;
       document.getElementById("ex").innerHTML = extras;
@@ -603,6 +623,53 @@ function undo() {
       document.getElementById("nst").innerHTML = nst + "(" + nstb + ")";
       document.getElementById("bst").innerHTML = bstwkt + "-" + bstrun;
       document.getElementById("bnst").innerHTML = bnstwkt + "-" + bnstrun;
+    }
+  }
+  //No Ball
+  else if (change === -3) {
+    var tempNoBall = noballRecords.pop();
+    total = total - tempNoBall;
+    runs = runs - tempNoBall;
+    if (tempNoBall % 2 === 0 && flag === 0) {
+      flag = 1;
+      nst = nst - tempNoBall + 1;
+      nstb--;
+    } else if (tempNoBall % 2 === 0 && flag === 1) {
+      flag = 0;
+      st = st - tempNoBall + 1;
+      stb--;
+    }
+    if (tempNoBall % 2 != 0) {
+      if (flag === 0) {
+        st = st - tempNoBall + 1;
+        stb--;
+      } else if (flag === 1) {
+        nst = nst - tempNoBall + 1;
+        nstb--;
+      }
+    }
+    // extras--;
+    extras -= 1;
+    cnb--;
+    if (bflag === 0) {
+      bstrun -= tempNoBall - 1;
+      bstrun--;
+    } else if (bflag === 1) {
+      bnstrun -= tempNoBall - 1;
+      bnstrun--;
+    }
+    if (total === 0) {
+      total = 0;
+    }
+    if (flag === 0 || flag === 1) {
+      document.getElementById("runs").innerHTML = total;
+      document.getElementById("ex").innerHTML = extras;
+      document.getElementById("noballs").innerHTML = cnb;
+      document.getElementById("st").innerHTML = st + "(" + stb + ")";
+      document.getElementById("nst").innerHTML = nst + "(" + nstb + ")";
+      document.getElementById("bst").innerHTML = bstwkt + "-" + bstrun;
+      document.getElementById("bnst").innerHTML = bnstwkt + "-" + bnstrun;
+      freeHitFlag = 0;
     }
   }
 }
